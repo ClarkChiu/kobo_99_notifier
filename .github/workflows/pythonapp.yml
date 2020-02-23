@@ -3,7 +3,7 @@ env:
   TZ: Asia/Taipei
 on:   
   schedule:
-     - cron:  '0 17 * * 4'
+    - cron: '0 16 * * 4'
 jobs:
   create_weekly_book_list:
     runs-on: ubuntu-latest
