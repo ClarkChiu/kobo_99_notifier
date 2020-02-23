@@ -1,10 +1,11 @@
+import io
 import re
 import os
 import json
 import requests
 import unicodedata
 from bs4 import BeautifulSoup
-from datetime import date
+from datetime import date, timedelta
 
 
 def create_folder(directory):
@@ -14,15 +15,11 @@ def create_folder(directory):
     except OSError:
         print(f'Error: Creating directory. {directory}')
 
+today = date.today()
+offset = (today.weekday() - 3) % 7
+date_str = (today - timedelta(days=offset)).strftime("%Y%m%d")
 
-date_str = date.today().strftime("%Y%m%d")
-test_date_str = date(2020, 2, 6).strftime("%Y%m%d")
-
-url = (
-    'https://tw.news.kobo.com/%E5%B0%88%E9%A1%8C%E4%BC%81%E5%8A%83/'
-    f'blog_dd_{date_str}'
-)
-
+url = f'https://tw.news.kobo.com/專題企劃/blog_dd_{date_str}'
 print(f'URL: {url}')
 
 headers = {
@@ -35,9 +32,9 @@ headers = {
 }
 
 regex = (
-    r'書名：(?P<Name>.+)\n'
-    r'作者：(?P<Author>.+)\n'
-    r'出版社：(?P<Publisher>.+)\n'
+    r'書名：\s*(?P<Name>.+)\n'
+    r'作者：\s*(?P<Author>.+)\n'
+    r'出版社：\s*(?P<Publisher>.+)\n'
 )
 
 latest_99_page_flow = requests.get(url=url, headers=headers)
@@ -67,23 +64,25 @@ if title is not None and re.match(r'.+一週99書單.+', title.text):
             book_structure['Coupon'] = coupon
             book_structure['URL'] = book.a['href']
             book_structure['Image'] = book.a.img['src']
+
+            book_page_flow = requests.get(
+                url=book_structure['URL'], headers=headers
+            )
+
+            book_page = BeautifulSoup(book_page_flow.content, 'html.parser')
+            desc = book_page.find('div', class_='synopsis-description')
+            book_structure['Intro'] = unicodedata.normalize(
+                'NFKD', desc.get_text()
+            )
+
+            books_structure.append(book_structure)
         except Exception as e:
             print(e)
 
-        book_page_flow = requests.get(
-            url=book_structure['URL'], headers=headers
-        )
-
-        book_page = BeautifulSoup(book_page_flow.content, 'html.parser')
-        desc = book_page.find('div', class_='synopsis-description')
-        book_structure['Intro'] = unicodedata.normalize(
-            'NFKD', desc.get_text()
-        )
-
-        books_structure.append(book_structure)
-
-    create_folder('./output/')
-    with open(f'output/{date_str}.json', 'w') as json_file:
+    folder_name = 'book_list'
+    create_folder(f'./{folder_name}/')
+    with io.open(f'{folder_name}/{date_str}.json', 'w', encoding='utf8') as json_file:
         json.dump(books_structure, json_file, ensure_ascii=False)
+
 else:
     print('The page is not available')
