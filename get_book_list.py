@@ -47,6 +47,10 @@ if title is not None and re.match(r'.+一週99書單.+', title.text):
     simple_content = latest_99_page.find_all('div', class_='simplebox-content')
     books_structure = []
 
+    for book in books:
+        if not book.a:
+            books.remove(book)
+
     for book, content in zip(books, simple_content):
         content_text = content.get_text()
 
@@ -56,6 +60,7 @@ if title is not None and re.match(r'.+一週99書單.+', title.text):
             ).groupdict('')
 
             coupon = re.search(r'(kobo\d{6})', content_text)
+
             if coupon:
                 coupon = coupon.group(1)
             else:
