@@ -13,9 +13,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: Set up Python 3.8
       uses: actions/setup-python@v1
-      env:
-        TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-        TELEGRAM_TO: ${{ secrets.TELEGRAM_TO }}
       with:
         python-version: 3.8
     - name: Install dependencies
@@ -23,5 +20,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Parser the book info and send out the notification
+      env:
+        TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+        TELEGRAM_TO: ${{ secrets.TELEGRAM_TO }}
       run: |
         python book_parser.py
