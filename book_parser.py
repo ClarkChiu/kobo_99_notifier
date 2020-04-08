@@ -13,6 +13,7 @@ with open(latest_file, 'r', encoding='utf-8') as f:
     book_list = json.loads(f.readline())
 
 idx = (datetime.datetime.today().weekday() + 4) % 7
+print(f'The idx is {idx}')
 
 try:
     book = book_list[idx]
@@ -23,8 +24,6 @@ try:
             f'token = {os.getenv("TELEGRAM_TOKEN")}\n'
             f'chat_id = {os.getenv("TELEGRAM_TO")}'
         )
-
-    print(os.getenv("TELEGRAM_TO"))
 
     if book["Coupon"]:
         coupon_message = f'折扣碼： {book["Coupon"]}'
