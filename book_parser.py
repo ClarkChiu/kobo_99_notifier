@@ -24,6 +24,8 @@ try:
             f'chat_id = {os.getenv("TELEGRAM_TO")}'
         )
 
+    print(os.getenv("TELEGRAM_TO"))
+
     if book["Coupon"]:
         coupon_message = f'折扣碼： {book["Coupon"]}'
     else:
