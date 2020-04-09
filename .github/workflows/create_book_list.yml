@@ -1,7 +1,7 @@
 name: Get weekly book list
 env:
   TZ: Asia/Taipei
-on:   
+on:
   schedule:
     - cron: '0 1 * * 4'
 jobs:
