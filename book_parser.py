@@ -7,16 +7,17 @@ import requests
 import shutil
 
 list_of_files = glob.glob('./book_list/*')
-latest_file = max(list_of_files, key=os.path.getctime)
+latest_file = max(list_of_files)
 
 with open(latest_file, 'r', encoding='utf-8') as f:
     book_list = json.loads(f.readline())
 
 idx = (datetime.datetime.today().weekday() + 4) % 7
-print(f'The idx is {idx}')
+# print(f'The idx is {idx}')
 
 try:
     book = book_list[idx]
+
     # Create the configuration file for telegram
     with open('telegram-send.conf', 'w') as conf_file:
         conf_file.write(
@@ -45,7 +46,7 @@ try:
         conf='telegram-send.conf',
     )
 
-    # Download the book cover
+    # Download and sending the book cover
     # url = book['Image']
     # file_name = os.path.basename(url)
     # r = requests.get(url, stream=True)
@@ -70,4 +71,5 @@ try:
     #         conf='telegram-send.conf',
     #     )
 except Exception as e:
-    print(e)
+    raise e
+
