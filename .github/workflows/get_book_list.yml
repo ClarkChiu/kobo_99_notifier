@@ -1,4 +1,4 @@
-name: Python application
+name: Get weekly book list
 env:
   TZ: Asia/Taipei
 on:   
@@ -7,7 +7,6 @@ on:
 jobs:
   create_weekly_book_list:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.8
