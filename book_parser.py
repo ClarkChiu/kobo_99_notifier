@@ -39,12 +39,6 @@ try:
         f'[購買連結]({book["URL"]})'
     )
 
-    telegram_send.send(
-        messages=[message],
-        parse_mode='markdown',
-        conf='telegram-send.conf',
-    )
-
     # Download and sending the book cover
     url = book['Image']
     file_name = os.path.basename(url)
