@@ -13,7 +13,6 @@ with open(latest_file, 'r', encoding='utf-8') as f:
     book_list = json.loads(f.readline())
 
 idx = (datetime.datetime.today().weekday() + 4) % 7
-# print(f'The idx is {idx}')
 
 try:
     book = book_list[idx]
@@ -47,29 +46,21 @@ try:
     )
 
     # Download and sending the book cover
-    # url = book['Image']
-    # file_name = os.path.basename(url)
-    # r = requests.get(url, stream=True)
-    # if r.status_code == 200:
-    #     with open(file_name, 'wb') as f:
-    #         r.raw.decode_content = True
-    #         shutil.copyfileobj(r.raw, f) 
+    url = book['Image']
+    file_name = os.path.basename(url)
+    r = requests.get(url, stream=True)
+    if r.status_code == 200:
+        with open(file_name, 'wb') as book_cover:
+            r.raw.decode_content = True
+            shutil.copyfileobj(r.raw, book_cover) 
 
-    # with open(file_name, "rb") as f:
-    #     message = (
-    #         f'書名： {book["Name"]}\n'
-    #         f'作者： {book["Author"]}\n'
-    #         f'出版社： {book["Publisher"]}\n'
-    #         f'折扣碼： {book["Coupon"]}\n'
-    #         f'簡介： {book["Intro"]}\n'
-    #         f'[購買連結]({book["URL"]})'
-    #     )
-    #     telegram_send.send(
-    #         messages=[message],
-    #         images=[f],
-    #         parse_mode='markdown',
-    #         conf='telegram-send.conf',
-    #     )
+    with open(file_name, "rb") as book_cover:
+        telegram_send.send(
+            messages=[message],
+            images=[book_cover],
+            parse_mode='markdown',
+            conf='telegram-send.conf',
+        )
 except Exception as e:
     raise e
 
