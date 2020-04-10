@@ -2,8 +2,10 @@ name: Book parser and notifier
 env:
   TZ: Asia/Taipei
 on:   
+  push:
+    branches: master
   schedule:
-    - cron: '10 1 * * 4'
+    - cron: '10 1 * * *'
 jobs:
   create_weekly_book_list:
     runs-on: ubuntu-latest
