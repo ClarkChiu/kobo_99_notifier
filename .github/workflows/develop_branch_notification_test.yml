@@ -1,14 +1,20 @@
-name: Book parser and notifier
+name: Notification Test
 env:
   TZ: Asia/Taipei
 on:   
+  push:
+    branches: 
+    - develop
   schedule:
-    - cron: '10 1 * * *'
+    - cron: '0 16 * * 0-3,5-6'
+    - cron: '10 1 * * 4' 
 jobs:
   book_parser_and_notification_sender:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+      with:
+        ref: develop
     - name: Set up Python 3.8
       uses: actions/setup-python@v1
       with:
@@ -19,7 +25,7 @@ jobs:
         pip install -r requirements.txt
     - name: Parser the book info and send out the notification
       env:
-        TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-        TELEGRAM_TO: ${{ secrets.TELEGRAM_TO }}
+        TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN_TEST }}
+        TELEGRAM_TO: ${{ secrets.TELEGRAM_TO_TEST }}
       run: |
         python book_parser.py
