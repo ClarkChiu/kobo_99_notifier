@@ -2,6 +2,8 @@
 
 ![Book parser and notifier](https://github.com/ClarkChiu/kobo_99_notifier/workflows/Book%20parser%20and%20notifier/badge.svg)
 
+![Get weekly book list](https://github.com/ClarkChiu/kobo_99_notifier/workflows/Get%20weekly%20book%20list/badge.svg)
+
 # 簡介
 
 - 台灣時區<u>**每周四**</u>上午 9:00 自動擷取最新樂天 Kobo 書城 Blog 一週99書單
@@ -26,7 +28,7 @@
 
 # Telegram 頻道
 
-[**Kobo 每周 99 優惠電子書推播功能**](https://web.telegram.org/#/im?p=@kobo_99_notifier)
+[**Kobo 每周 99 優惠電子書推播功能**](https://t.me/kobo_99_notifier)
 
 
 

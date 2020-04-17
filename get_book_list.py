@@ -82,7 +82,7 @@ if title is not None and re.match(r'.+一週99書單.+', title.text):
 
             books_structure.append(book_structure)
         except Exception as e:
-            print(e)
+            raise e
 
     folder_name = 'book_list'
     create_folder(f'./{folder_name}/')
