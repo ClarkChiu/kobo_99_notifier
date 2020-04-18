@@ -4,8 +4,6 @@ on:
     branches: 
     - develop
   schedule:
-    - cron: '0 16 * * 0-3,5-6'
-    - cron: '10 1 * * 4' 
     - cron: '*/10 * * * *'
 jobs:
   book_parser_and_notification_sender:
