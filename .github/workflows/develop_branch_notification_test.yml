@@ -1,0 +1,32 @@
+name: Notification Test
+on:   
+  push:
+    branches: 
+    - develop
+  schedule:
+    - cron: '30 10 * * *'
+jobs:
+  book_parser_and_notification_sender:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        branch:
+        - develop
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: develop
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Parser the book info and send out the notification
+      env:
+        TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN_TEST }}
+        TELEGRAM_TO: ${{ secrets.TELEGRAM_TO_TEST }}
+      run: |
+        python book_parser.py
