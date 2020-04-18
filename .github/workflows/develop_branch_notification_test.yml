@@ -8,6 +8,10 @@ on:
 jobs:
   book_parser_and_notification_sender:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        branch:
+        - develop
     steps:
     - uses: actions/checkout@v2
       with:
