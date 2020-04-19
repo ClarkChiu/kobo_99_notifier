@@ -16,10 +16,9 @@ except Exception as e:
     raise e
 
 taiwan_tz = pytz.timezone('Asia/Taipei')
-taiwan_tz_today_weekday = (
-    datetime.datetime.today().astimezone(taiwan_tz).weekday()
-)
-idx = (taiwan_tz_today_weekday + 4) % 7
+today = datetime.datetime.today().astimezone(taiwan_tz)
+weekday_of_today = today.weekday()
+idx = (weekday_of_today + 4) % 7
 
 try:
     # Create the configuration file for telegram
@@ -33,6 +32,7 @@ try:
     book = book_list[idx]
     coupon_message = f'{book["Coupon"]}' if book["Coupon"] else '不需折扣碼'
     message = (
+        f'{today.strftime("%Y/%m/%d")} Kobo 特價書籍\n\n'
         f'書名：{book["Name"]}\n'
         f'作者：{book["Author"]}\n'
         f'出版社：{book["Publisher"]}\n\n'
