@@ -3,17 +3,17 @@
 import re
 import os
 import requests
-import unicodedata
+# import unicodedata
 from bs4 import BeautifulSoup
 from datetime import date, timedelta
 
 
-def create_folder(directory):
-    try:
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-    except OSError:
-        print(f'Error: Creating directory. {directory}')
+# def create_folder(directory):
+#     try:
+#         if not os.path.exists(directory):
+#             os.makedirs(directory)
+#     except OSError:
+#         print(f'Error: Creating directory. {directory}')
 
 
 today = date.today()
@@ -58,17 +58,14 @@ if title is not None and re.match(r'.+本週精選書單.+', title.text):
             book_structure['Name'] = re.sub(r'《|》', '', book.text).strip()
             book_structure['URL'] = f'{redirectUrl}{book.a["href"]}'
 
-            book_page_flow = requests.get(
-                url=book_structure['URL'], headers=headers
-            )
-
-            book_page = BeautifulSoup(book_page_flow.content, 'html.parser')
-            desc = book_page.find('div', class_='synopsis-description')
-
-            book_structure['Intro'] = unicodedata.normalize(
-                'NFKD', desc.get_text()
-            )
-
+            # book_page_flow = requests.get(
+            #     url=book_structure['URL'], headers=headers
+            # )
+            # book_page = BeautifulSoup(book_page_flow.content, 'html.parser')
+            # desc = book_page.find('div', class_='synopsis-description')
+            # book_structure['Intro'] = unicodedata.normalize(
+            #     'NFKD', desc.get_text()
+            # )
             books_structure.append(book_structure)
         except Exception as e:
             raise e
@@ -98,8 +95,8 @@ if title is not None and re.match(r'.+本週精選書單.+', title.text):
 
         for book in books_structure:
             message = (
-                f'書名：{book["Name"]}\n'
-                f'簡介：\n{book["Intro"]}\n'
+                f'書名： {book["Name"]}\n'
+                # f'簡介：\n{book["Intro"]}\n'
                 f'[購買連結]({book["URL"]})'
             )
 
@@ -108,7 +105,6 @@ if title is not None and re.match(r'.+本週精選書單.+', title.text):
                 parse_mode='markdown',
                 conf='telegram-send.conf',
             )
-
     except Exception as e:
         raise e
 else:
