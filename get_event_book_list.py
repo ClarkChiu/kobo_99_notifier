@@ -2,6 +2,7 @@
 # import json
 import re
 import os
+# import shutil
 import requests
 # import unicodedata
 from bs4 import BeautifulSoup
@@ -61,13 +62,6 @@ if title is not None and re.match(r'.+本週精選書單.+', title.text):
             # book_page_flow = requests.get(
             #     url=book_structure['URL'], headers=headers
             # )
-<<<<<<< HEAD
-            # book_page = BeautifulSoup(book_page_flow.content, 'html.parser')
-            # desc = book_page.find('div', class_='synopsis-description')
-            # book_structure['Intro'] = unicodedata.normalize(
-            #     'NFKD', desc.get_text()
-            # )
-=======
             #
             # book_page = BeautifulSoup(book_page_flow.content, 'html.parser')
             # desc = book_page.find('div', class_='synopsis-description')
@@ -76,7 +70,6 @@ if title is not None and re.match(r'.+本週精選書單.+', title.text):
             #     'NFKD', desc.get_text()
             # )
 
->>>>>>> 1ad920ba938b055771b25cdd68450a9af9cd0a19
             books_structure.append(book_structure)
         except Exception as e:
             raise e
@@ -106,11 +99,7 @@ if title is not None and re.match(r'.+本週精選書單.+', title.text):
 
         for book in books_structure:
             message = (
-<<<<<<< HEAD
                 f'書名： {book["Name"]}\n'
-=======
-                f'書名：{book["Name"]}\n'
->>>>>>> 1ad920ba938b055771b25cdd68450a9af9cd0a19
                 # f'簡介：\n{book["Intro"]}\n'
                 f'[購買連結]({book["URL"]})'
             )
