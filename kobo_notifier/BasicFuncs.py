@@ -1,7 +1,10 @@
+import os
 import re
-import requests
 import unicodedata
 from datetime import datetime, timedelta
+
+import requests
+from telegram_send import send
 from bs4 import BeautifulSoup
 
 
@@ -85,6 +88,9 @@ class BasicFuncs(object):
                 ).text
             )
 
+            # Filter paired symbol of markdown
+            book_info['Intro'] = re.sub(r'[*_]', '', book_info['Intro'])
+
             # Parser for book publication info
             book_detail_info = book_page.find(
                 'div', class_='bookitem-secondary-metadata'
@@ -159,3 +165,18 @@ class BasicFuncs(object):
             return event_info
         except Exception as e:
             raise e
+
+    def create_telegram_send_conf(self):
+        with open('telegram-send.conf', 'w') as conf_file:
+            conf_file.write(
+                '[telegram]\n'
+                f'token = {os.getenv("telegram_token")}\n'
+                f'chat_id = {os.getenv("TELEGRAM_TO")}'
+            )
+
+    def send_notification(self, message_list):
+        send(
+            messages=message_list,
+            parse_mode='markdown',
+            conf='telegram-send.conf',
+        )

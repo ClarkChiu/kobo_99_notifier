@@ -1,6 +1,16 @@
+import os
+import re
 import json
 import urllib.parse
+from unittest import mock
 from kobo_notifier.BasicFuncs import BasicFuncs
+
+
+def teardown_module(module):
+    try:
+        os.remove('telegram-send.conf')
+    except OSError as e:
+        print(e)
 
 
 def test_get_daily_onsale_book(requests_mock):
@@ -43,3 +53,24 @@ def test_get_event_onsale_book(requests_mock):
 
     basic_func = BasicFuncs(latest_monday_date='20200622')
     assert event_info == basic_func.get_event_onsale_book()
+
+
+def test_create_telegram_send_conf():
+    basic_func = BasicFuncs()
+    basic_func.create_telegram_send_conf()
+    with open('telegram-send.conf', 'r') as conf_file:
+        assert re.match(
+            (
+                r'\[telegram\]\n'
+                r'token = [0-9]{10}:[a-zA-Z0-9_-]{35}\n'
+                r'chat_id = [\@\w\_]+'
+            ),
+            conf_file.read()
+        )
+
+
+@mock.patch('kobo_notifier.BasicFuncs.send')
+def test_send_notification(telegram_send_send_action):
+    basic_func = BasicFuncs()
+    basic_func.send_notification(['123'])
+    telegram_send_send_action.assert_called_once()
