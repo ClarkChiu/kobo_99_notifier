@@ -26,10 +26,10 @@ class BasicFuncs(object):
 
         if not latest_monday_date:
             # Get the date of latest monday
-            today = datetime.today()
-            offset_to_latest_monday = today.weekday() % 7
+            self.today = datetime.today()
+            offset_to_latest_monday = self.today.weekday() % 7
             self.latest_monday_date = (
-                today - timedelta(days=offset_to_latest_monday)
+                self.today - timedelta(days=offset_to_latest_monday)
             ).strftime("%Y%m%d")
         else:
             self.latest_monday_date = latest_monday_date
@@ -167,12 +167,22 @@ class BasicFuncs(object):
             raise e
 
     def create_telegram_send_conf(self):
-        with open('telegram-send.conf', 'w') as conf_file:
-            conf_file.write(
-                '[telegram]\n'
-                f'token = {os.getenv("telegram_token")}\n'
-                f'chat_id = {os.getenv("TELEGRAM_TO")}'
-            )
+        try:
+            telegram_token = os.getenv("telegram_token")
+            telegram_to = os.getenv("TELEGRAM_TO")
+            if not telegram_token or not telegram_to:
+                raise Exception(
+                    'The telegram-send related info are not in env variable'
+                )
+
+            with open('telegram-send.conf', 'w') as conf_file:
+                conf_file.write(
+                    '[telegram]\n'
+                    f'token = {telegram_token}\n'
+                    f'chat_id = {telegram_to}'
+                )
+        except Exception as e:
+            raise e
 
     def send_notification(self, message_list):
         send(
