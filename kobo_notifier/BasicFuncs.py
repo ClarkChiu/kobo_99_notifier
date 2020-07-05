@@ -126,9 +126,11 @@ class BasicFuncs(object):
             kobo_event_page = BeautifulSoup(
                 kobo_event_flow.content, 'html.parser'
             )
+            title = kobo_event_page.find('h1', class_='article-title')
+        except Exception as e:
+            raise e
 
-            book_title = kobo_event_page.find('h1', class_='article-title')
-
+        if title is not None and re.match(r'.+本週精選書單.+', title.text):
             books = kobo_event_page.find_all(
                 'p', {'style': 'text-align: center;'}
             )
@@ -154,19 +156,18 @@ class BasicFuncs(object):
 
             event_info = {
                 'URL': url,
-                'Title': book_title.text,
+                'Title': title.text,
                 'Coupon': coupon,
                 'BookList': books_info,
             }
 
             return event_info
-        except Exception as e:
-            raise e
 
     def create_telegram_send_conf(self):
         try:
             telegram_token = os.getenv("telegram_token")
             telegram_to = os.getenv("TELEGRAM_TO")
+
             if not telegram_token or not telegram_to:
                 raise Exception(
                     'The telegram-send related info are not in env variable'
@@ -182,12 +183,9 @@ class BasicFuncs(object):
             raise e
 
     def send_notification(self, message_list):
-        # Filter paired symbol of markdown
-        for idx, message in enumerate(message_list):
-            message_list[idx] = re.sub(r'[*_]', '', message)
-
         send(
             messages=message_list,
-            parse_mode='markdown',
+            # parse_mode='markdown',
+            parse_mode='text',
             conf='telegram-send.conf',
         )

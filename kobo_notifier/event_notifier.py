@@ -3,9 +3,9 @@ from BasicFuncs import BasicFuncs
 
 basic_func = BasicFuncs()
 event_onsale_book = basic_func.get_event_onsale_book()
-print(event_onsale_book)
 
 if event_onsale_book:
+    print(event_onsale_book)
     basic_func.create_telegram_send_conf()
 
     message_list = [
@@ -23,3 +23,5 @@ if event_onsale_book:
         )
 
     basic_func.send_notification(message_list)
+else:
+    print('The web page is not available or parsing error')

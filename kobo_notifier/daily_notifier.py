@@ -21,7 +21,8 @@ if today_99_book:
             f'出版社：{today_99_book["Publisher"]}\n'
             f'出版日期：{today_99_book["PublishDate"]}\n\n'
             f'簡介：\n{today_99_book["Intro"]}\n'
-            f'[購買連結]({today_99_book["URL"]})'
+            # f'[購買連結]({today_99_book["URL"]})'
+            f'購買連結：{today_99_book["URL"]}'
         ),
         coupon_message
     ]
