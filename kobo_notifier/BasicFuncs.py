@@ -88,9 +88,6 @@ class BasicFuncs(object):
                 ).text
             )
 
-            # Filter paired symbol of markdown
-            book_info['Intro'] = re.sub(r'[*_]', '', book_info['Intro'])
-
             # Parser for book publication info
             book_detail_info = book_page.find(
                 'div', class_='bookitem-secondary-metadata'
@@ -185,6 +182,10 @@ class BasicFuncs(object):
             raise e
 
     def send_notification(self, message_list):
+        # Filter paired symbol of markdown
+        for idx, message in enumerate(message_list):
+            message_list[idx] = re.sub(r'[*_]', '', message)
+
         send(
             messages=message_list,
             parse_mode='markdown',
