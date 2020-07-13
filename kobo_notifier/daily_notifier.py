@@ -1,38 +1,36 @@
 import os
-import sys
 from BasicFuncs import BasicFuncs
 
 
 basic_func = BasicFuncs(event_name='daily')
+if not os.path.exists(basic_func.checkpoint_filepath):
+    today_99_book = basic_func.get_daily_onsale_book()
+    print(today_99_book)
 
-if os.path.exists(basic_func.checkpoint_filepath):
-    sys.exit('Today\'s daily notification has been sent. Program exit')
+    if today_99_book:
+        basic_func.create_telegram_send_conf()
 
-today_99_book = basic_func.get_daily_onsale_book()
-print(today_99_book)
+        if today_99_book["Coupon"]:
+            coupon_message = f'{today_99_book["Coupon"]}'
+        else:
+            coupon_message = '不需折扣碼'
 
-if today_99_book:
-    basic_func.create_telegram_send_conf()
+        message_list = [
+            (
+                f'{basic_func.today.strftime("%Y/%m/%d")}\nKobo 99 特價書籍\n\n'
+                f'書名：{today_99_book["Name"]}\n\n'
+                f'作者：{today_99_book["Author"]}\n'
+                f'出版社：{today_99_book["Publisher"]}\n'
+                f'出版日期：{today_99_book["PublishDate"]}\n\n'
+                f'簡介：\n{today_99_book["Intro"]}\n'
+                f'購買連結：{today_99_book["URL"]}'
+            ),
+            coupon_message
+        ]
 
-    if today_99_book["Coupon"]:
-        coupon_message = f'{today_99_book["Coupon"]}'
+        basic_func.send_notification(message_list)
+        basic_func.create_checkpoint()
     else:
-        coupon_message = '不需折扣碼'
-
-    message_list = [
-        (
-            f'{basic_func.today.strftime("%Y/%m/%d")}\nKobo 99 特價書籍\n\n'
-            f'書名：{today_99_book["Name"]}\n\n'
-            f'作者：{today_99_book["Author"]}\n'
-            f'出版社：{today_99_book["Publisher"]}\n'
-            f'出版日期：{today_99_book["PublishDate"]}\n\n'
-            f'簡介：\n{today_99_book["Intro"]}\n'
-            f'購買連結：{today_99_book["URL"]}'
-        ),
-        coupon_message
-    ]
-
-    basic_func.send_notification(message_list)
-    basic_func.create_checkpoint()
+        print('The daily onsale web page is not available or parsing error')
 else:
-    print('The daily onsale web page is not available or parsing error')
+    print('Today\'s daily notification has been sent. Program exit')
