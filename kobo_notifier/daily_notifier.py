@@ -1,7 +1,13 @@
+import os
+import sys
 from BasicFuncs import BasicFuncs
 
 
-basic_func = BasicFuncs()
+basic_func = BasicFuncs(event_name='daily')
+
+if os.path.exists(basic_func.checkpoint_filepath):
+    sys.exit('Today\'s daily notification has been sent. Program exit')
+
 today_99_book = basic_func.get_daily_onsale_book()
 print(today_99_book)
 
@@ -21,10 +27,12 @@ if today_99_book:
             f'出版社：{today_99_book["Publisher"]}\n'
             f'出版日期：{today_99_book["PublishDate"]}\n\n'
             f'簡介：\n{today_99_book["Intro"]}\n'
-            # f'[購買連結]({today_99_book["URL"]})'
             f'購買連結：{today_99_book["URL"]}'
         ),
         coupon_message
     ]
 
     basic_func.send_notification(message_list)
+    basic_func.create_checkpoint()
+else:
+    print('The daily onsale web page is not available or parsing error')

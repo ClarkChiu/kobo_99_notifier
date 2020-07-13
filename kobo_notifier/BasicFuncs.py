@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 class BasicFuncs(object):
     """docstring for BasicFuncs."""
 
-    def __init__(self, latest_monday_date=None):
+    def __init__(self, latest_monday_date=None, event_name='daily'):
         self.age_verify_url = \
             'https://www.kobo.com/tw/zh/ageverification/confirm?redirectUrl='
 
@@ -24,13 +24,19 @@ class BasicFuncs(object):
             )
         }
 
+        self.today = datetime.today()
+        self.checkpoint_filename = \
+            f'{self.today.strftime("%Y%m%d")}.{event_name}'
+
+        self.checkpoint_filepath = \
+            f'./checkpoint/{self.checkpoint_filename}.checkpoint'
+
         if not latest_monday_date:
             # Get the date of latest monday
-            self.today = datetime.today()
             offset_to_latest_monday = self.today.weekday() % 7
             self.latest_monday_date = (
                 self.today - timedelta(days=offset_to_latest_monday)
-            ).strftime("%Y%m%d")
+            ).strftime('%Y%m%d')
         else:
             self.latest_monday_date = latest_monday_date
 
@@ -183,9 +189,22 @@ class BasicFuncs(object):
             raise e
 
     def send_notification(self, message_list):
-        send(
-            messages=message_list,
-            # parse_mode='markdown',
-            parse_mode='text',
-            conf='telegram-send.conf',
-        )
+        try:
+            send(
+                messages=message_list,
+                parse_mode='text',
+                conf='telegram-send.conf',
+            )
+        except Exception as e:
+            raise e
+
+    def create_checkpoint(self):
+        try:
+            os.makedirs(
+                os.path.dirname(self.checkpoint_filepath), exist_ok=True
+            )
+
+            with open(self.checkpoint_filepath, 'w') as check_point_file:
+                pass
+        except Exception as e:
+            raise e

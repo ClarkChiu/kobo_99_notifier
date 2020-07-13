@@ -1,6 +1,7 @@
 import os
 import re
 import json
+import shutil
 import urllib.parse
 from unittest import mock
 from kobo_notifier.BasicFuncs import BasicFuncs
@@ -9,6 +10,7 @@ from kobo_notifier.BasicFuncs import BasicFuncs
 def teardown_module(module):
     try:
         os.remove('telegram-send.conf')
+        shutil.rmtree('./checkpoint')
     except OSError as e:
         print(e)
 
@@ -74,3 +76,12 @@ def test_send_notification(telegram_send_send_action):
     basic_func = BasicFuncs()
     basic_func.send_notification(['123'])
     telegram_send_send_action.assert_called_once()
+
+
+def test_create_checkpoint_daily():
+    event_name_lists = ['daily', 'event']
+    for event_name in event_name_lists:
+        basic_func = BasicFuncs(event_name=event_name)
+        basic_func.create_checkpoint()
+        with open(basic_func.checkpoint_filepath, 'r') as check_point_file:
+            pass
