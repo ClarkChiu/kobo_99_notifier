@@ -171,8 +171,8 @@ class BasicFuncs(object):
 
     def create_telegram_send_conf(self):
         try:
-            telegram_token = os.getenv("telegram_token")
-            telegram_to = os.getenv("TELEGRAM_TO")
+            telegram_token = os.getenv('TELEGRAM_TOKEN')
+            telegram_to = os.getenv('TELEGRAM_TO')
 
             if not telegram_token or not telegram_to:
                 raise Exception(
