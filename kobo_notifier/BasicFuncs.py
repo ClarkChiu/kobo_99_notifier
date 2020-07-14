@@ -1,5 +1,6 @@
 import os
 import re
+import pytz
 import unicodedata
 from datetime import datetime, timedelta
 
@@ -24,7 +25,9 @@ class BasicFuncs(object):
             )
         }
 
-        self.today = datetime.today()
+        now = datetime.utcnow()
+        tw_tz = pytz.timezone('Asia/Taipei')
+        self.today = now.astimezone(tw_tz).today()
         self.checkpoint_filename = \
             f'{self.today.strftime("%Y%m%d")}.{event_name}'
 
