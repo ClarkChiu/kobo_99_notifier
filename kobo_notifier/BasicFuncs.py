@@ -28,6 +28,8 @@ class BasicFuncs(object):
         now = datetime.utcnow()
         tw_tz = pytz.timezone('Asia/Taipei')
         self.today = now.astimezone(tw_tz).today()
+        print(self.today)
+
         self.checkpoint_filename = \
             f'{self.today.strftime("%Y%m%d")}.{event_name}'
 
