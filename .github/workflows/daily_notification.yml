@@ -1,0 +1,36 @@
+name: Daily Notification
+on:   
+  push:
+    branches: 
+    - master
+  schedule:
+  - cron: '*/30 * * * *'
+jobs:
+  Daily_Notification:
+    name: Daily Notification
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup timezone
+      uses: zcong1993/setup-timezone@master
+      with:
+        timezone: Asia/Taipei
+    - uses: actions/checkout@v2
+      with:
+        ref: master
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Parser the book info and send out the notification
+      env:
+        TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+        TELEGRAM_TO: ${{ secrets.TELEGRAM_TO }}
+      run: |
+        python kobo_notifier/daily_notifier.py
+    - uses: stefanzweifel/git-auto-commit-action@v3.0.0
+      with:
+        commit_message: Commit the checkpoint back to repo
