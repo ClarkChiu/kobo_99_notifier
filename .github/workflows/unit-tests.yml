@@ -19,6 +19,8 @@ jobs:
     name: Python ${{ matrix.python-version }}
     steps:
     - uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.PAT_TOKEN }}
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
