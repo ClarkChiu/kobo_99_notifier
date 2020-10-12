@@ -65,7 +65,7 @@ def test_create_telegram_send_conf():
             (
                 r'\[telegram\]\n'
                 r'token = [0-9]{10}:[a-zA-Z0-9_-]{35}\n'
-                r'chat_id = [\@\w\_]+'
+                r'chat_id = [\-\@\w\_]+'
             ),
             conf_file.read()
         )
