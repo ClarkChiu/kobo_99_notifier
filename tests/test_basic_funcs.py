@@ -8,11 +8,8 @@ from kobo_notifier.BasicFuncs import BasicFuncs
 
 
 def teardown_module(module):
-    try:
-        os.remove('telegram-send.conf')
-        shutil.rmtree('./checkpoint')
-    except OSError as e:
-        print(e)
+    os.remove('telegram-send.conf')
+    shutil.rmtree('./checkpoint')
 
 
 def test_get_daily_onsale_book(requests_mock):
