@@ -1,5 +1,7 @@
 # 樂天 Kobo 書城優惠 Telegram 通知機器人
 
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/ClarkChiu/kobo_99_notifier.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ClarkChiu/kobo_99_notifier/context:python)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/ClarkChiu/kobo_99_notifier.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ClarkChiu/kobo_99_notifier/alerts/)
 [![codecov](https://codecov.io/gh/ClarkChiu/kobo_99_notifier/branch/master/graph/badge.svg)](https://codecov.io/gh/ClarkChiu/kobo_99_notifier)
 
 # 簡介
