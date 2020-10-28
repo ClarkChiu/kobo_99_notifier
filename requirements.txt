@@ -6,7 +6,7 @@ certifi==2020.6.20
 cffi==1.14.3
 chardet==3.0.4
 colorama==0.4.4
-cryptography==3.2
+cryptography==3.2.1
 decorator==4.4.2
 idna==2.10
 more-itertools==8.5.0
