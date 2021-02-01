@@ -10,7 +10,7 @@ cryptography==3.3.1
 decorator==4.4.2
 idna==2.10
 more-itertools==8.6.0
-packaging==20.8
+packaging==20.9
 pluggy==0.13.1
 py==1.10.0
 pycparser==2.20
