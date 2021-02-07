@@ -43,9 +43,8 @@ class BasicFuncs(object):
         else:
             self.latest_monday_date = latest_monday_date
 
-    def get_daily_onsale_book(self):
+    def get_daily_onsale_book(self, url):
         book_info = {}
-        url = f'https://www.kobo.com/tw/zh/p/tw-dailydeal-bestofmonth'
 
         # Parser for kobo 99 event page
         kobo99_flow = requests.get(url=url, headers=self.headers)

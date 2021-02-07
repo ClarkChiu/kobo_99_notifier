@@ -1,11 +1,21 @@
-import os
+import os, sys
 from BasicFuncs import BasicFuncs
 
 
 basic_func = BasicFuncs(event_name='daily')
 if not os.path.exists(basic_func.checkpoint_filepath):
-    today_99_book = basic_func.get_daily_onsale_book()
-    print(today_99_book)
+    url_list = [
+        'https://www.kobo.com/tw/zh/p/tw-dailydeal-bestofmonth',
+        'https://www.kobo.com/tw/zh'
+    ]
+
+    try:
+        today_99_book = basic_func.get_daily_onsale_book(url_list[0])
+    except Exception:
+        today_99_book = False
+
+    if not today_99_book:
+        today_99_book = basic_func.get_daily_onsale_book(url_list[1])
 
     if today_99_book:
         basic_func.create_telegram_send_conf()
