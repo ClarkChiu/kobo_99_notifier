@@ -13,6 +13,7 @@ def teardown_module(module):
 
 
 def test_get_daily_onsale_book(requests_mock):
+    url = 'https://www.kobo.com/tw/zh/p/tw-dailydeal-bestofmonth'
     result_file_path = 'tests/data/20200628_book_info.json'
     with open(result_file_path, 'r', encoding='UTF-8') as f:
         book_info = json.loads(f.read())
@@ -20,10 +21,7 @@ def test_get_daily_onsale_book(requests_mock):
     # Mock the response of kobo 99 event page
     kobo_99_event_page_path = 'tests/data/20200628_kobo_99_event_page.html'
     with open(kobo_99_event_page_path, 'r', encoding='UTF-8') as f:
-        requests_mock.get(
-            'https://www.kobo.com/tw/zh/p/tw-dailydeal-bestofmonth',
-            text=f.read()
-        )
+        requests_mock.get(url, text=f.read())
 
     # Mock the response of book page
     kobo_99_book_page_path = 'tests/data/20200628_kobo_99_book_page.html'
@@ -34,7 +32,7 @@ def test_get_daily_onsale_book(requests_mock):
         )
 
     basic_func = BasicFuncs()
-    assert book_info == basic_func.get_daily_onsale_book()
+    assert book_info == basic_func.get_daily_onsale_book(url)
 
 
 def test_get_event_onsale_book(requests_mock):
