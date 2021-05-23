@@ -5,9 +5,9 @@ name: Unit Tests
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, upgrade-py ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, upgrade-py ]
 
 jobs:
   test_using_builtin_python:
@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8]
+        python-version: [3.9]
     name: Python ${{ matrix.python-version }}
     steps:
     - uses: actions/checkout@v2
