@@ -1,4 +1,4 @@
-import os, sys
+import os
 from BasicFuncs import BasicFuncs
 
 
@@ -28,7 +28,7 @@ if not os.path.exists(basic_func.checkpoint_filepath):
         message_list = [
             (
                 f'{basic_func.today.strftime("%Y/%m/%d")}\nKobo 99 特價書籍\n\n'
-                f'書名：{today_99_book["Name"]}\n\n'
+                f'書名：{today_99_book["Name"]}\n'
                 f'作者：{today_99_book["Author"]}\n'
                 f'出版社：{today_99_book["Publisher"]}\n'
                 f'出版日期：{today_99_book["PublishDate"]}\n\n'

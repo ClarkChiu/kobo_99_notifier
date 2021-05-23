@@ -69,7 +69,7 @@ class BasicFuncs(object):
         book_page = BeautifulSoup(book_page_flow.content, 'html.parser')
 
         resources_path = {
-            'Name': ['span', 'title product-field'],
+            'Name': ['h2', 'title product-field'],
             'Author': ['a', 'contributor-name'],
         }
 
