@@ -7,11 +7,6 @@ from unittest import mock
 from kobo_notifier.BasicFuncs import BasicFuncs
 
 
-def teardown_module(module):
-    os.remove('telegram-send.conf')
-    shutil.rmtree('./checkpoint')
-
-
 def test_get_daily_onsale_book(requests_mock):
     url = 'https://www.kobo.com/tw/zh/p/tw-dailydeal-bestofmonth'
     result_file_path = 'tests/data/20200628_book_info.json'
