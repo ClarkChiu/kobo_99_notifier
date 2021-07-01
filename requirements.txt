@@ -19,7 +19,7 @@ py==1.10.0
 pycparser==2.20
 pyparsing==2.4.7
 pytest==6.2.4
-python-telegram-bot==13.6
+python-telegram-bot==13.7
 pytz==2021.1
 requests==2.25.1
 requests-mock==1.9.3
