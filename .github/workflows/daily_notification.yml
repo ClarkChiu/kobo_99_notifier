@@ -27,6 +27,7 @@ jobs:
       env:
         TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
         TELEGRAM_TO: ${{ secrets.TELEGRAM_TO }}
+        TELEGRAM_TO_KOBO_GROUP: ${{ secrets.TELEGRAM_TO_KOBO_GROUP }}
       run: |
         python kobo_notifier/daily_notifier.py
     - uses: stefanzweifel/git-auto-commit-action@v3.0.0
