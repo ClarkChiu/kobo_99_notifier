@@ -12,7 +12,10 @@ event_onsale_book = basic_func.get_event_onsale_book()
 
 if event_onsale_book:
     print(event_onsale_book)
-    basic_func.create_telegram_send_conf()
+    basic_func.create_telegram_send_conf(
+        telegram_token=os.getenv('TELEGRAM_TOKEN'),
+        telegram_to=os.getenv('TELEGRAM_TO')
+    )
 
     message_list = [
         (

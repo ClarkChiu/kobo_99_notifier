@@ -162,10 +162,7 @@ class BasicFuncs(object):
 
             return event_info
 
-    def create_telegram_send_conf(self):
-        telegram_token = os.getenv('TELEGRAM_TOKEN')
-        telegram_to = os.getenv('TELEGRAM_TO')
-
+    def create_telegram_send_conf(self, telegram_token, telegram_to):
         if not telegram_token or not telegram_to:
             raise Exception(
                 'The telegram-send related info are not in env variable'
@@ -178,10 +175,10 @@ class BasicFuncs(object):
                 f'chat_id = {telegram_to}'
             )
 
-    def send_notification(self, message_list):
+    def send_notification(self, message_list, parse_mode='text'):
         send(
             messages=message_list,
-            parse_mode='text',
+            parse_mode=parse_mode,
             conf='telegram-send.conf',
         )
 
