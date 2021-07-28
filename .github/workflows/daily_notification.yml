@@ -1,7 +1,7 @@
 name: Daily Notification
 on:   
   schedule:
-  - cron: '10 0 * * *'
+  - cron: '10 16 * * *'
 jobs:
   Daily_Notification:
     name: Daily Notification
