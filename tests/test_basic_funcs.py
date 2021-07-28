@@ -50,8 +50,8 @@ def test_get_event_onsale_book(requests_mock):
 def test_create_telegram_send_conf():
     basic_func = BasicFuncs()
     basic_func.create_telegram_send_conf(
-        telegram_token=os.getenv('TELEGRAM_TOKEN'),
-        telegram_to=os.getenv('TELEGRAM_TO')
+        telegram_token='3438758802:8fna3RMm4PJg3hFu9lVLzmnKDchTVuG1RD9',
+        telegram_to='-1001393233062'
     )
 
     with open('telegram-send.conf', 'r') as conf_file:

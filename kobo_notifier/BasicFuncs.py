@@ -175,10 +175,10 @@ class BasicFuncs(object):
                 f'chat_id = {telegram_to}'
             )
 
-    def send_notification(self, message_list, parse_mode='text'):
+    def send_notification(self, message_list):
         send(
             messages=message_list,
-            parse_mode=parse_mode,
+            parse_mode='markdown',
             conf='telegram-send.conf',
         )
 

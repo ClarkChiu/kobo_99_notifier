@@ -5,9 +5,9 @@ name: Unit Tests
 
 on:
   push:
-    branches: [ master, upgrade-py ]
+    branches: [ master ]
   pull_request:
-    branches: [ master, upgrade-py ]
+    branches: [ master ]
 
 jobs:
   test_using_builtin_python:
@@ -35,10 +35,6 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
-      env:
-        TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN_TEST }}
-        TELEGRAM_TO: ${{ secrets.TELEGRAM_TO_TEST }}
-      run: |
-        pytest -svv --cov=./ --cov-report=xml
+      run:  pytest -svv --cov=./ --cov-report=xml
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
