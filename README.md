@@ -4,13 +4,10 @@
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/ClarkChiu/kobo_99_notifier.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ClarkChiu/kobo_99_notifier/alerts/)
 [![codecov](https://codecov.io/gh/ClarkChiu/kobo_99_notifier/branch/master/graph/badge.svg)](https://codecov.io/gh/ClarkChiu/kobo_99_notifier)
 
-# 簡介
+# 功能簡介
 
-- 台灣時區 <u>**每日上午 00:00**</u> 自動擷取最新樂天 Kobo 書城當日特價書籍資訊並推播至 Telegram 頻道
-- 自動抓取多個跨頁面之書籍資訊並將其自動提交至專案中
-- **完全使用 GitHub Actions 服務，不需額外架設伺服器**
-
-
+- 台灣時區 <u>**每日上午 00:05**</u> 自動擷取最新樂天 Kobo 書城當日特價書籍資訊並推播至 Telegram 頻道
+- 自動抓取多個跨頁面之書籍資訊
 
 # 訊息格式
 
