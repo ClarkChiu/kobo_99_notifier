@@ -51,7 +51,8 @@ class BasicFuncs(object):
         kobo99_page = BeautifulSoup(kobo99_flow.content, 'html.parser')
         today_99_block = kobo99_page.find('div', class_='SpotlightWidget')
 
-        coupon = re.search(r'(kobo\d{6})', today_99_block.text)
+        coupon = re.search(r'(kobo[\w\d]+)', today_99_block.text)
+
         if coupon:
             book_info['Coupon'] = coupon.group(1)
         else:
