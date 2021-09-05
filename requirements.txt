@@ -31,7 +31,7 @@ soupsieve==2.2.1
 telegram-send==0.25
 toml==0.10.2
 tornado==6.1
-typing-extensions==3.10.0.0
+typing-extensions==3.10.0.2
 tzlocal==3.0
 urllib3==1.26.6
 wcwidth==0.2.5
