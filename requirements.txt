@@ -23,7 +23,7 @@ pycparser==2.20
 pyparsing==2.4.7
 pytest==6.2.5
 python-telegram-bot==13.7
-pytz==2021.1
+pytz==2021.3
 requests==2.26.0
 requests-mock==1.9.3
 six==1.16.0
