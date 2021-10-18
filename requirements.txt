@@ -32,7 +32,7 @@ telegram-send==0.25
 toml==0.10.2
 tornado==6.1
 typing-extensions==3.10.0.2
-tzlocal==3.0
+tzlocal==4.0
 urllib3==1.26.7
 wcwidth==0.2.5
 zipp==3.6.0
