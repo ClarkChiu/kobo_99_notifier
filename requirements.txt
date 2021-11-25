@@ -13,7 +13,7 @@ colorama==0.4.4
 cryptography==35.0.0
 decorator==5.1.0
 idna==3.2
-importlib-metadata==4.8.1
+importlib-metadata==4.8.2
 iniconfig==1.1.1
 more-itertools==8.10.0
 packaging==21.3
@@ -32,7 +32,7 @@ telegram-send==0.25
 toml==0.10.2
 tornado==6.1
 typing-extensions==3.10.0.2
-tzlocal==4.0.2
+tzlocal==4.1
 urllib3==1.26.7
 wcwidth==0.2.5
 zipp==3.6.0
