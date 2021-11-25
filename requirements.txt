@@ -12,7 +12,7 @@ click==8.0.3
 colorama==0.4.4
 cryptography==36.0.0
 decorator==5.1.0
-idna==3.2
+idna==3.3
 importlib-metadata==4.8.2
 iniconfig==1.1.1
 more-itertools==8.10.0
