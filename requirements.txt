@@ -27,7 +27,7 @@ pytz==2021.3
 requests==2.26.0
 requests-mock==1.9.3
 six==1.16.0
-soupsieve==2.2.1
+soupsieve==2.3.1
 telegram-send==0.25
 toml==0.10.2
 tornado==6.1
