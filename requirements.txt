@@ -1,5 +1,5 @@
 ﻿appdirs==1.4.4
-APScheduler==3.6.3
+APScheduler==3.8.1
 atomicwrites==1.4.0
 attrs==21.4.0
 beautifulsoup4==4.10.0
