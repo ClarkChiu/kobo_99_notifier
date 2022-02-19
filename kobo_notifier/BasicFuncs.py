@@ -5,8 +5,9 @@ import unicodedata
 from datetime import datetime, timedelta
 
 import requests
-from telegram_send import send
 from bs4 import BeautifulSoup
+from telegram_send import send
+from fake_useragent import UserAgent
 
 
 class BasicFuncs(object):
@@ -45,9 +46,12 @@ class BasicFuncs(object):
 
     def get_daily_onsale_book(self, url):
         book_info = {}
+        headers = {'user-agent': UserAgent().random}
 
         # Parser for kobo 99 event page
-        kobo99_flow = requests.get(url=url, headers=self.headers)
+        # kobo99_flow = requests.get(url=url, headers=headers)
+
+        kobo99_flow = requests.get(url=url)
         kobo99_page = BeautifulSoup(kobo99_flow.content, 'html.parser')
         today_99_block = kobo99_page.find('div', class_='SpotlightWidget')
 
@@ -63,9 +67,7 @@ class BasicFuncs(object):
         )
 
         # Parser for book page
-        book_page_flow = requests.get(
-            url=book_info['URL'], headers=self.headers
-        )
+        book_page_flow = requests.get(url=book_info['URL'])
 
         book_page = BeautifulSoup(book_page_flow.content, 'html.parser')
 
@@ -124,7 +126,7 @@ class BasicFuncs(object):
         url = f'{base_url}{self.latest_monday_date}'
 
         # Parser for event page
-        kobo_event_flow = requests.get(url=url, headers=self.headers)
+        kobo_event_flow = requests.get(url=url, headers={'user-agent': UserAgent().random})
         kobo_event_page = BeautifulSoup(
             kobo_event_flow.content, 'html.parser'
         )
