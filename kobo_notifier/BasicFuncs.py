@@ -9,7 +9,6 @@ from telegram_send import send
 
 import undetected_chromedriver.v2 as uc
 
-
 class BasicFuncs(object):
     """docstring for BasicFuncs."""
 
@@ -29,7 +28,10 @@ class BasicFuncs(object):
     def get_daily_onsale_book(self, url):
         book_info = {}
 
-        kobo99_flow = uc.Chrome(headless=True)
+        options = uc.ChromeOptions()
+        options.add_experimental_option('prefs', {'intl.accept_languages': 'zh-TW'})
+
+        kobo99_flow = uc.Chrome(headless=True, chrome_options=options)
         kobo99_flow.get(url)
 
         kobo99_page = BeautifulSoup(kobo99_flow.page_source, 'html.parser')
@@ -47,7 +49,7 @@ class BasicFuncs(object):
         )
 
         # Parser for book page
-        book_page_flow = uc.Chrome(headless=True)
+        book_page_flow = uc.Chrome(headless=True, chrome_options=options)
         book_page_flow.get(book_info['URL'])
         book_page = BeautifulSoup(book_page_flow.page_source, 'html.parser')
 
