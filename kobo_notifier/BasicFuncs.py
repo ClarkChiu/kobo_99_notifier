@@ -4,27 +4,18 @@ import pytz
 import unicodedata
 from datetime import datetime, timedelta
 
-import requests
 from bs4 import BeautifulSoup
 from telegram_send import send
-from fake_useragent import UserAgent
+
+import undetected_chromedriver.v2 as uc
 
 
 class BasicFuncs(object):
     """docstring for BasicFuncs."""
 
-    def __init__(self, latest_monday_date=None, event_name='daily'):
+    def __init__(self, event_name='daily'):
         self.age_verify_url = \
             'https://www.kobo.com/tw/zh/ageverification/confirm?redirectUrl='
-
-        self.headers = {
-            'User-Agent': (
-                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) '
-                'AppleWebKit/537.36 (KHTML, like Gecko) '
-                'Chrome/39.0.2171.95 '
-                'Safari/537.36'
-            )
-        }
 
         now = datetime.utcnow()
         tw_tz = pytz.timezone('Asia/Taipei')
@@ -35,24 +26,13 @@ class BasicFuncs(object):
         self.checkpoint_filepath = \
             f'./checkpoint/{self.checkpoint_filename}.checkpoint'
 
-        if not latest_monday_date:
-            # Get the date of latest monday
-            offset_to_latest_monday = self.today.weekday() % 7
-            self.latest_monday_date = (
-                self.today - timedelta(days=offset_to_latest_monday)
-            ).strftime('%Y%m%d')
-        else:
-            self.latest_monday_date = latest_monday_date
-
     def get_daily_onsale_book(self, url):
         book_info = {}
-        headers = {'user-agent': UserAgent().random}
 
-        # Parser for kobo 99 event page
-        # kobo99_flow = requests.get(url=url, headers=headers)
+        kobo99_flow = uc.Chrome(headless=True)
+        kobo99_flow.get(url)
 
-        kobo99_flow = requests.get(url=url)
-        kobo99_page = BeautifulSoup(kobo99_flow.content, 'html.parser')
+        kobo99_page = BeautifulSoup(kobo99_flow.page_source, 'html.parser')
         today_99_block = kobo99_page.find('div', class_='SpotlightWidget')
 
         coupon = re.search(r'(kobo[\w\d]+)', today_99_block.text)
@@ -67,9 +47,9 @@ class BasicFuncs(object):
         )
 
         # Parser for book page
-        book_page_flow = requests.get(url=book_info['URL'])
-
-        book_page = BeautifulSoup(book_page_flow.content, 'html.parser')
+        book_page_flow = uc.Chrome(headless=True)
+        book_page_flow.get(book_info['URL'])
+        book_page = BeautifulSoup(book_page_flow.page_source, 'html.parser')
 
         resources_path = {
             'Name': ['h2', 'title product-field'],
@@ -120,50 +100,6 @@ class BasicFuncs(object):
             book_info['PublishDate'] = 'N/A'
 
         return book_info
-
-    def get_event_onsale_book(self):
-        base_url = 'https://tw.news.kobo.com/專題企劃/blog-weekly-booklist-'
-        url = f'{base_url}{self.latest_monday_date}'
-
-        # Parser for event page
-        kobo_event_flow = requests.get(url=url, headers={'user-agent': UserAgent().random})
-        kobo_event_page = BeautifulSoup(
-            kobo_event_flow.content, 'html.parser'
-        )
-        title = kobo_event_page.find('h1', class_='article-title')
-
-        if title is not None and re.match(r'.+本週精選書單.+', title.text):
-            books = kobo_event_page.find_all(
-                'p', {'style': 'text-align: center;'}
-            )
-
-            coupon_msg = kobo_event_page.find(
-                'div', style=re.compile(r'background:#eee;')
-            ).text
-
-            coupon = re.search(r'本週折扣代碼：(\w+)', coupon_msg).group(1)
-
-            books_info = []
-            for book in books:
-                if book.a:
-                    book_structure = {}
-
-                    book_structure['Name'] = \
-                        re.sub(r'《|》', '', book.text).strip()
-
-                    book_structure['URL'] = \
-                        f'{self.age_verify_url}{book.a["href"]}'
-
-                    books_info.append(book_structure)
-
-            event_info = {
-                'URL': url,
-                'Title': title.text,
-                'Coupon': coupon,
-                'BookList': books_info,
-            }
-
-            return event_info
 
     def create_telegram_send_conf(self, telegram_token, telegram_to):
         if not telegram_token or not telegram_to:
