@@ -29,7 +29,9 @@ class BasicFuncs(object):
         book_info = {}
 
         options = uc.ChromeOptions()
-        options.add_experimental_option('prefs', {'intl.accept_languages': 'zh-TW'})
+        options.add_experimental_option(
+            'prefs', {'intl.accept_languages': 'zh, zh-TW'}
+        )
 
         kobo99_flow = uc.Chrome(headless=True, chrome_options=options)
         kobo99_flow.get(url)
@@ -37,7 +39,7 @@ class BasicFuncs(object):
         kobo99_page = BeautifulSoup(kobo99_flow.page_source, 'html.parser')
         today_99_block = kobo99_page.find('div', class_='SpotlightWidget')
 
-        coupon = re.search(r'(kobo[\w\d]+)', today_99_block.text)
+        coupon = re.search(r'(kobo[\w\d]+)', today_99_block.text, flags=re.A)
 
         if coupon:
             book_info['Coupon'] = coupon.group(1)

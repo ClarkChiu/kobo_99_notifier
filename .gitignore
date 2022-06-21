@@ -1,7 +1,7 @@
 # Custom files
 telegram-send.conf
 checkpoint/
-run.sh
+run*.sh
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

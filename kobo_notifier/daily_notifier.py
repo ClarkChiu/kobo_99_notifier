@@ -12,7 +12,7 @@ def daily_notifier(message_type):
         event_name='KoboGroup'
 
     basic_func = BasicFuncs(event_name=event_name)
-    today_99_book = basic_func.get_daily_onsale_book('https://www.kobo.com')
+    today_99_book = basic_func.get_daily_onsale_book('https://www.kobo.com/tw/zh')
 
     if today_99_book:
         if today_99_book['Coupon']:
